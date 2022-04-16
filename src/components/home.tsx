@@ -43,7 +43,7 @@ class Home extends React.Component {
       this.deleteMap[id] = true;
       await this.api.deleteProduct(id);
       await this.fetchProducts();
-      this.applyFilter();
+      this.applyFilter(this.state);
     }
   }
 
@@ -68,8 +68,9 @@ class Home extends React.Component {
     });
   }
 
-  applyFilter() {
-    const { products, categories, query } = this.state;
+  public applyFilter(state : homeState) : Array<product> {
+    const { products, categories, query } = state;
+    console.log('called', products, categories, query, state);
     let items = products;
     if(query) {
       items = products.filter((p) => {
@@ -85,7 +86,7 @@ class Home extends React.Component {
 
   render() {
     const { loaded, categories } = this.state;
-    let items = this.applyFilter();
+    let items = this.applyFilter(this.state);
 
     return <section>
           <div className="container">
