@@ -12,10 +12,6 @@ import Home from './components/home';
 import Register from './components/register';
 
 class App extends React.Component {
-  state = {
-    className: ''
-  }
-
   render() {
     return (<Router>
       <div className='container mx-auto px-4'>

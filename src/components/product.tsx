@@ -1,32 +1,14 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Link,
-    useParams,
-    matchRoutes,
-    matchPath
-} from "react-router-dom";
-
-interface product {
-  id: string,
-  name : string,
-  price : number,
-  category : string,
-  description : string,
-  avatar : string,
-  developerEmail : string,
-  createdAt: number
-}
-
-interface RouteParams {
-  id: string
-}
+import { matchPath } from "react-router-dom";
+import { product } from '../interfaces/app.interface';
+import { ApiService } from '../services/api.service';
 
 class Product extends React.Component {
-  state : any;
+  
+  state : product;
 
+  api = new ApiService();
+  
   // Constructor 
   constructor(props : any) {
     super(props);
@@ -43,18 +25,14 @@ class Product extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.props);
+  async componentDidMount() {
     let match = matchPath('/product/:id', window.location.pathname);
-    fetch("https://62286b649fd6174ca82321f1.mockapi.io/case-study/products/" + match?.params.id)
-        .then((res) => res.json())
-        .then((json) => {
-            this.setState(json);
-        });
+    let json = await this.api.getProduct(match?.params.id as string);
+    this.setState(json);
   }
+
   render() {
-    
-  return <section id="product" className="product">
+    return <section>
           <div className="container">
             <div className="flex flex-row space-x-7">
               <div className="w-1/4">
